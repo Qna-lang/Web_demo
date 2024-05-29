@@ -1,0 +1,31 @@
+<!-- edit_profile.html -->
+{% extends "base.html" %}
+
+{% block title %}Edit Profile{% endblock %}
+{% block body %}
+<h1>修改个人信息</h1>
+<img src="{{ user.image }}" width="100px" height="100px">
+<form action="{{ url_for('qa.revise') }}" method="post" enctype="multipart/form-data">
+    <!--像后端传图片-->
+    <div style="margin-top: 20px;">
+        <label for="profile_picture"><strong>Avatar:</strong></label>
+        <input style="margin-left: 50px;" type="file" id="profile_picture" name="profile_picture" accept="image/*">
+    </div>
+    <div style="margin-top: 20px;">
+        <label for="email"><strong>Email:</strong></label>
+        <a>&nbsp&nbsp{{ user.email }}</a>
+        <!--input type="email" id="email" name="email" style="margin-left: 33px;" required-->
+    </div>
+    <div style="margin-top: 20px;">
+        <label for="username"><strong>Username:</strong></label>
+        <input type="text" id="username" name="username" required>
+    </div>
+    <div style="margin-top: 10px;">
+        <label for="biography" style="display: block"><strong>Biography:</strong></label>
+        <textarea id="biography" name="biography" rows="4" cols="50" required></textarea>
+    </div>
+    <div style="margin-top: 10px;">
+        <button type="submit" class="btn btn-success">保存信息</button>
+    </div>
+</form>
+{% endblock %}

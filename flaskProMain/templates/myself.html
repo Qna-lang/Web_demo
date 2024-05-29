@@ -1,0 +1,70 @@
+{% extends "base.html" %}
+
+{% block title %}About Me{% endblock %}
+{% block head %}
+    <link rel="stylesheet" href="../static/css/myself.css">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/index.css') }}">
+    <style>
+         #myself{
+             position: absolute;
+             margin-left: 100px;
+             top: 160px;
+         }
+    </style>
+{% endblock %}
+{% block body %}
+<h1 style="margin-top: 10px;">个人信息</h1>
+{#<img src="{{ user.image }}" height="100" width="100" alt="avatar" style="margin-top: 20px;">#}
+<div class="image-container">
+    <img src="{{ user.image }}" alt="Example Image" class="thumbnail" onclick="openImagePopup(this.src)">
+</div>
+
+<!-- 弹窗 -->
+<div id="imagePopup" class="popup" onclick="closeImagePopup()">
+    <span class="close" onclick="closeImagePopup()">&times;</span>
+    <img class="popup-content" id="popupImage">
+</div>
+
+<script src="../static/js/myself.js"></script> <!-- 引入JavaScript文件 -->
+
+{#<a style="margin-left: 50px; margin-top: 10px; height: 10px;position: absolute;font-size: 20px;"><strong>username</strong></a>#}
+<ul id="myself">
+    <li><strong>Username:</strong>&nbsp{{ user.username }}</li>
+    <li><strong>Email:</strong>&nbsp{{ user.email }}</li>
+    <li><strong>Joined:</strong>&nbsp{{ user.join_time }}</li>
+</ul>
+<a href="{{ url_for("qa.revise") }}">
+    <button type="button" class="btn btn-success" style="margin-left: 850px;margin-top: 0px;">编辑材料</button>
+</a>
+<p>Welcome to my profile page! Here you can find detailed information about my account.</p>
+<h2 style="margin-top: 25px;"><strong>个人简介</strong></h2>
+<p style="margin-top: 15px;">{{ user.myself }}</p>
+<h2 style="margin-top: 25px;"><strong>最近发表</strong></h2>
+<div class="row" style="margin-top: 30px;width: 110%">
+            <div class="col"></div>
+            <div class="col-10">
+                <ul class="question-ul">
+                    {% for question in questions %}
+                        {% if question.author.username==session.username %}
+                            <li>
+                                <div class="side-question">
+
+                                    <img class="side-question-avatar" src={{ question.author.image }} alt="">
+                                </div>
+
+                                <div class="question-main">
+                                    <div class="question-title"><a href="{{url_for('qa.qa_detail',qa_id = question.id)}}">{{question.title}}</a></div>
+                                    <div class="question-content">{{ question.content}}</div>
+                                    <div class="question-detail">
+                                        <span class="question-author">{{question.author.username}}</span>
+                                        <span class="question-time">{{question.create_time}}</span>
+                                    </div>
+                                </div>
+                            </li>
+                        {% endif %}
+                    {% endfor %}
+                </ul>
+            </div>
+            <div class="col"></div>
+        </div>
+{% endblock %}
